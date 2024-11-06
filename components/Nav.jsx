@@ -7,6 +7,17 @@ import { signIn, signOut, useSession, getProviders } from 'next-auth/react';
 
 const Nav = () => {
   const isUserLoggedIn = true;
+
+  const [providers, setProviders] = useState(null);
+
+  useEffect(() => {
+    const setProviders = async () => {
+      const response = getProviders();
+      setProviders(response);
+    }
+    setProviders();
+  }, [])
+
   const signOut = () => { }
   return (
     <nav className="flex-between w-full mb-16 pt-3">
@@ -22,7 +33,7 @@ const Nav = () => {
           Promptopia
         </p>
       </Link>
-      {/*Mobile Navigation  */}
+      {/*Desktop Navigation  */}
       <div className="sm:flex hidden">
         {
           isUserLoggedIn ?
@@ -47,10 +58,42 @@ const Nav = () => {
                 </Link>
               </div>
             ) : (
-              <div>
-                not logged in
-              </div>
+              <>
+                {
+                  providers && (
+                    Object.values(providers).map((provider) => (
+                      <button
+                        type="button"
+                        key={provider.name}
+                        onClick={() => signIn(provider.id)}
+                        className="black_btn"
+                      >
+                        Sign In
+
+                      </button>
+                    ))
+                  )
+                }
+              </>
             )
+        }
+      </div>
+      {/* Mobile Navigation */}
+      <div className="sm:hidden flex relative">
+        {
+          isUserLoggedIn ? (
+            <div className="flex">
+              <Image
+                src='/assets/images/logo.svg'
+                width={37}
+                height={37}
+                className="rounded-full"
+                alt='profile'
+              />
+            </div>
+          ) : (
+            <></>
+          )
         }
       </div>
     </nav>
