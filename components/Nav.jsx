@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import { signIn, signOut, useSession, getProviders } from 'next-auth/react';
 
 const Nav = () => {
-  const isUserLoggedIn = true;
+  const isUserLoggedIn = false;
 
   const [providers, setProviders] = useState(null);
 
@@ -69,7 +69,6 @@ const Nav = () => {
                         className="black_btn"
                       >
                         Sign In
-
                       </button>
                     ))
                   )
@@ -92,7 +91,14 @@ const Nav = () => {
               />
             </div>
           ) : (
-            <></>
+            <>
+              <button
+                type="button"
+                className="black_btn"
+              >
+                Sign In
+              </button>
+            </>
           )
         }
       </div>
